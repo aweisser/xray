@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- <parent>
+        <relativePath>..</relativePath>
+        <groupId>de.aw.xray</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.1.0</version>
+    </parent>
+    -->
+
+    <groupId>de.aw.xray</groupId>
+    <artifactId>example.webapp</artifactId>
+    <version>0.1.0</version>
+
+    <name>de.aw.xray.example.webapp</name>
+    <packaging>war</packaging>
+
+    <properties>
+        <java.version>1.6</java.version>
+        <spring.version>4.0.3.RELEASE</spring.version>
+        <org.slf4j.version>1.7.5</org.slf4j.version>
+    </properties>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>de.aw.xray</groupId>
+            <artifactId>agent</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+
+        <!-- Spring core & mvc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Servlet Spec -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <finalName>xray-example</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- http://tomcat.apache.org/maven-plugin-2.0/tomcat7-maven-plugin/ -->
+                <!-- Maven GOALS: http://tomcat.apache.org/maven-plugin-2.0/tomcat7-maven-plugin/plugin-info.html -->
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <!-- The default Tomcat manager URL is http://localhost:8080/manager. -->
+                    <!-- <url>...</url> -->
+
+                    <!-- The default context path is /${project.artifactId}. -->
+                    <path>/${project.build.finalName}</path>
+
+                    <!--<username></username>-->
+                    <!--<password></password>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
