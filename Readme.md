@@ -1,16 +1,16 @@
 # Xray - the testing paradigm with super powers
 
-Remember beeing a developer, trying to hunt down a bug with end2end testing?
+Ttrying to hunt down a bug with end2end testing?
 
-You'd probably do something like this:
-* start your application under test (AUT)
-* set a breakpoint
+As a developer you'd probably do something like this:
+* start your webapp
+* set a breakpoint on the server side code
 * tail -f the server log
 * open the app in a browser window
-* click on something
+* click your testcase
 * watch client, server log and breakpoints to see what's going on.
 
-## With Xray you can do any kind of end2end test a verify server side expactations at the same time.
+## With Xray you can do any kind of end2end test and verify server side expactations at the same time.
 
 ```Java
     @org.junit.Test
