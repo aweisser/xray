@@ -1,8 +1,6 @@
 package de.aw.xray.example.test;
 
-import de.aw.xray.agent.XrayEvent;
-import de.aw.xray.client.XrayEventListener;
-import de.aw.xray.client.XrayImpl;
+import de.aw.xray.client.impl.XrayImpl;
 import de.aw.xray.client.Xray;
 import org.junit.After;
 import org.junit.Before;
@@ -12,9 +10,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
+import static java.util.concurrent.TimeUnit.*;
 
 
 /**
@@ -35,16 +33,15 @@ public class XrayTest {
     public void setUp() throws Exception {
         System.setProperty("webdriver.chrome.driver", CHROME_DRIVER);
         driver = new ChromeDriver(); // http://www.qaautomation.net/?p=45
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, SECONDS);
         xray = new XrayImpl("localhost", 4711);
     }
 
     @Test
     public void registration_GoodCase() throws Exception {
         // register server side event expectations.
-        registerServerExpectation("business process event", "Starting business process for Ray");
-        registerServerExpectation("business process event", "Finished business process for Ray");
-        // registerServerExpectation(".*INFO: Mail sent to x.ray@xray.org.*", "Server-Log");
+        xray.lookFor("business process event").andExpect("Starting business process for Ray").within(3, SECONDS);
+        xray.lookFor("business process event").andExpect("Finished business process for Ray").within(3, SECONDS);
 
         // start lisitening for xray events
         xray.connect(); // non-blocking
@@ -69,40 +66,5 @@ public class XrayTest {
     public void disconnectXrayAgent() throws IOException {
         xray.disconnect();
     }
-
-
-    private void registerServerExpectation(final String eventType, final Object expectedResult) {
-        assertNotNull(expectedResult);
-        assertNotNull(eventType);
-
-        xray.register(new XrayEventListener() {
-
-            boolean expectedResultFound = false;
-
-            @Override
-            public String getEventType() {
-                return eventType;
-            }
-
-            @Override
-            public long getTimeout() {
-                return 10000;
-            }
-
-            @Override
-            public void handleEvent(XrayEvent xrayEvent) {
-                if(expectedResult.equals(xrayEvent.getResult())) {
-                    expectedResultFound = true;
-                }
-            }
-
-            @Override
-            public void verify() {
-                assertTrue(expectedResultFound);
-            }
-        });
-
-    }
-
 
 }
