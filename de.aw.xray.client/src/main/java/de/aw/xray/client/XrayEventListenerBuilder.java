@@ -10,9 +10,9 @@ public interface XrayEventListenerBuilder {
 
     XrayEventListenerBuilder lookFor(String eventType);
 
-    XrayEventListenerBuilder within(long timeout, TimeUnit timeUnit);
-
     XrayEventListenerBuilder andExpect(Serializable expectation);
+
+    XrayEventListenerBuilder within(long timeout, TimeUnit timeUnit);
 
     XrayEventListener build();
 

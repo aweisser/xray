@@ -44,7 +44,6 @@ public class SocketBasedXrayClientImpl implements XrayClient, Runnable {
     public void run() {
         do{
             try {
-
                 XrayEvent event = (XrayEvent) in.readObject();
                 events.add(event);
                 Logger.getAnonymousLogger().info("client> received " + event);

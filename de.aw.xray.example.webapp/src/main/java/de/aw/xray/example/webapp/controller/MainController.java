@@ -2,16 +2,13 @@ package de.aw.xray.example.webapp.controller;
 
 import de.aw.xray.agent.XrayEvent;
 import de.aw.xray.agent.XrayServer;
-import de.aw.xray.agent.socket.SocketBasedXrayServerImpl;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 /**
@@ -19,13 +16,13 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/hello")
-public class MainController implements InitializingBean {
+public class MainController {
 
     @Autowired
     XrayServer xrayServer;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    @PostConstruct
+    public void initXrayServer() throws Exception {
         xrayServer.start();
     }
 

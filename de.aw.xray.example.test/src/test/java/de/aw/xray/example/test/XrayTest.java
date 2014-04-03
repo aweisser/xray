@@ -40,8 +40,13 @@ public class XrayTest {
     @Test
     public void registration_GoodCase() throws Exception {
         // register server side event expectations.
-        xray.lookFor("business process event").andExpect("Starting business process for Ray").within(3, SECONDS);
-        xray.lookFor("business process event").andExpect("Finished business process for Ray").within(3, SECONDS);
+        xray.lookFor("business process event")
+                .andExpect("Starting business process for Ray")
+                .within(3, SECONDS);
+
+        xray.lookFor("business process event")
+                .andExpect("Finished business process for Ray")
+                .within(3, SECONDS);
 
         // start lisitening for xray events
         xray.connect(); // non-blocking
@@ -58,7 +63,7 @@ public class XrayTest {
         // verify the result on the client.
         assertEquals("Hello Ray. Thanks for your message!", driver.findElement(By.name("result")).getText());
 
-        //xray.verify(); // blocking. Wait for all expactations to come back or run into timeout
+        xray.verify(); // blocking. Wait for all expactations to come back or run into timeout
 
     }
 
