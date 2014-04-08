@@ -32,4 +32,15 @@ public class XrayEvent implements Serializable {
     public String toString() {
         return "[" + type + ":" + result + "]@"+time;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        XrayEvent that = (XrayEvent) obj;
+        return that != null && this.time == that.time && this.type == that.type && this.result.equals(that.result);
+    }
+
+    @Override
+    public int hashCode() {
+        return (type + time + String.valueOf(result)).hashCode();
+    }
 }

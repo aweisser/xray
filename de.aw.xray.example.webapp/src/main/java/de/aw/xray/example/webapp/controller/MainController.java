@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 
 /**
  * @author armin.weisser
@@ -34,19 +33,12 @@ public class MainController {
 
     private void startBusinessProcessFor(String name) {
 
-        pushXrayEvent("business process event", "Starting business process for " + name);
+        xrayServer.pushEvent(new XrayEvent("business process event", "Starting business process for " + name));
 
         // TODO do business things
 
-        pushXrayEvent("business process event", "Finished business process for " + name);
+        xrayServer.pushEvent(new XrayEvent("business process event", "Finished business process for " + name));
 
     }
 
-    private void pushXrayEvent(String eventType, String eventMessage) {
-        try {
-            xrayServer.pushEvent(new XrayEvent(eventType, eventMessage));
-        } catch (IOException e) {
-            e.printStackTrace();  //TODO handle exception!!!
-        }
-    }
 }
