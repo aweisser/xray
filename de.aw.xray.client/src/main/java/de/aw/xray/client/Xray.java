@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * @author armin.weisser
  */
-public interface Xray {
+public interface Xray extends XrayEventListenerBuilder {
 
     void register(XrayEventListener... xrayEventListeners);
 

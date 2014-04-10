@@ -1,15 +1,23 @@
-package de.aw.xray.client;
+package de.aw.xray.client.impl;
 
 import de.aw.xray.agent.XrayEvent;
+import de.aw.xray.client.Xray;
+import de.aw.xray.client.XrayClient;
+import de.aw.xray.client.XrayEventListener;
+import de.aw.xray.client.XrayEventListenerBuilder;
 import de.aw.xray.client.socket.SocketBasedXrayClientImpl;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author armin.weisser
  */
-public class XrayImpl implements Xray {
+public class XrayImpl implements Xray, XrayEventListenerBuilder {
+
+    private XrayEventListenerBuilder delegate = new XrayEventListenerBuilderImpl();
 
     private Set<XrayEventListener> xrayEventListeners = new HashSet<XrayEventListener>();
 
@@ -80,4 +88,29 @@ public class XrayImpl implements Xray {
         return System.currentTimeMillis();
     }
 
+
+    @Override
+    public XrayEventListenerBuilder lookFor(String eventType) {
+        return delegate.lookFor(eventType);
+    }
+
+    @Override
+    public XrayEventListenerBuilder andExpect(Serializable expectation) {
+        return delegate.andExpect(expectation);
+    }
+
+
+    @Override
+    public XrayEventListenerBuilder within(long timeout, TimeUnit timeUnit) {
+        delegate.within(timeout, timeUnit);
+        build();
+        return new UnmodifiableXrayEventListenerBuilderImpl();
+    }
+
+    @Override
+    public XrayEventListener build() {
+        XrayEventListener xrayEventListener = delegate.build();
+        register(xrayEventListener);
+        return xrayEventListener;
+    }
 }

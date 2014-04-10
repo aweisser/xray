@@ -3,6 +3,7 @@ package de.aw.xray.client;
 import de.aw.xray.agent.XrayEvent;
 import de.aw.xray.agent.XrayServer;
 import de.aw.xray.agent.socket.SocketBasedXrayServerImpl;
+import de.aw.xray.client.impl.XrayImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
