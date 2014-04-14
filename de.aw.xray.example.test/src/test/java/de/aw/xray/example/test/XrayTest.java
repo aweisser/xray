@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -21,7 +22,7 @@ import static java.util.concurrent.TimeUnit.*;
 public class XrayTest {
 
     private static final String DEV_URL = "http://localhost:8080/xray-example";
-    private static final String CHROME_DRIVER = "D:\\server\\chromedriver.exe";
+    private static final String CHROME_DRIVER = new File("de.aw.xray.example.test/src/main/resources/chromedriver.exe").getAbsolutePath();
 
     private String baseUrl = DEV_URL;
 
@@ -58,7 +59,7 @@ public class XrayTest {
         // verify the result on the client.
         assertEquals("Hello Ray. Thanks for your message!", driver.findElement(By.name("result")).getText());
 
-        //xray.verify(); // blocking. Wait for all expactations to come back or run into timeout
+        xray.verify(); // blocking. Wait for all expactations to come back or run into timeout
 
     }
 

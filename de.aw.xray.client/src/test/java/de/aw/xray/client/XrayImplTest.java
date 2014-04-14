@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -39,7 +40,10 @@ public class XrayImplTest {
     public void simpleEvent_NoExpectedEvent() throws IOException, InterruptedException {
         XrayEventListener event1 = new TestXrayEventListener("expected type", "expected result", TIMEOUT);
         xray.register(event1);
+
         xray.connect();
+        Thread.sleep(1000);
+
         // no server.pushEvent(...)
         xray.verify();
     }
@@ -49,7 +53,10 @@ public class XrayImplTest {
     public void simpleEvent_UnexpectedResult() throws IOException, InterruptedException {
         XrayEventListener event1 = new TestXrayEventListener("expected type", "expected result", TIMEOUT);
         xray.register(event1);
+
         xray.connect();
+        Thread.sleep(1000);
+
         server.pushEvent(new XrayEvent("expected type", "unexpected result"));
         xray.verify();
     }
@@ -58,7 +65,10 @@ public class XrayImplTest {
     public void simpleEvent_UnexpectedType() throws IOException, InterruptedException {
         XrayEventListener event1 = new TestXrayEventListener("expected type", "expected result", TIMEOUT);
         xray.register(event1);
+
         xray.connect();
+        Thread.sleep(1000);
+
         server.pushEvent(new XrayEvent("unexpected type", "expected result"));
         xray.verify();
     }
@@ -68,8 +78,8 @@ public class XrayImplTest {
     public void simpleEvent_SorryToLate() throws IOException, InterruptedException {
         XrayEventListener event1 = new TestXrayEventListener("expected type", "expected result", 1000);
         xray.register(event1);
-        xray.connect();
 
+        xray.connect();
         Thread.sleep(2000);
 
         server.pushEvent(new XrayEvent("expected type", "expected result"));
@@ -80,7 +90,10 @@ public class XrayImplTest {
     public void simpleEvent_GoodCase() throws IOException, InterruptedException {
         XrayEventListener event1 = new TestXrayEventListener("expected type", "expected result", TIMEOUT);
         xray.register(event1);
+
         xray.connect();
+        Thread.sleep(1000);
+
         server.pushEvent(new XrayEvent("expected type", "expected result"));
         xray.verify();
     }
@@ -88,7 +101,10 @@ public class XrayImplTest {
     @Test
     public void singleEvent_registerAfterPush_GoodCase() throws IOException, InterruptedException {
         XrayEventListener event1 = new TestXrayEventListener("expected type 1", "expected result", TIMEOUT);
+
         xray.connect();
+        Thread.sleep(1000);
+
         server.pushEvent(new XrayEvent("expected type 1", "expected result"));
         xray.register(event1);
         xray.verify();
@@ -102,6 +118,7 @@ public class XrayImplTest {
         xray.register(event1, event2, event3);
 
         xray.connect();
+        Thread.sleep(1000);
 
         server.pushEvent(new XrayEvent("expected type 1", "expected result"));
         server.pushEvent(new XrayEvent("expected type 2", "expected result"));
@@ -118,7 +135,6 @@ public class XrayImplTest {
         xray.register(event1, event2, event3);
 
         xray.connect();
-
         Thread.sleep(1000);
 
         server.pushEvent(new XrayEvent("unexpected type 1", "expected result"));
@@ -137,6 +153,7 @@ public class XrayImplTest {
         xray.register(event1);
 
         xray.connect();
+        Thread.sleep(1000);
 
         xray.register(event2);
         xray.register(event3);
@@ -153,7 +170,10 @@ public class XrayImplTest {
         XrayEventListener event1 = new TestXrayEventListener("expected type 1", "expected result", TIMEOUT);
         XrayEventListener event2 = new TestXrayEventListener("expected type 2", "expected result", TIMEOUT);
         xray.register(event1);
+
         xray.connect();
+        Thread.sleep(1000);
+
         server.pushEvent(new XrayEvent("expected type 1", "expected result"));
         server.pushEvent(new XrayEvent("expected type 2", "expected result")); // There is an event but no listener
         xray.verify();
@@ -165,7 +185,10 @@ public class XrayImplTest {
         XrayEventListener event1 = new TestXrayEventListener("expected type 1", "expected result", TIMEOUT);
         XrayEventListener event2 = new TestXrayEventListener("expected type 2", "expected result", TIMEOUT);
         XrayEventListener event3 = new TestXrayEventListener("expected type 3", "expected result", TIMEOUT);
+
         xray.connect();
+        Thread.sleep(1000);
+
         xray.register(event2);
         server.pushEvent(new XrayEvent("expected type 3", "expected result"));
         server.pushEvent(new XrayEvent("expected type 1", "expected result"));

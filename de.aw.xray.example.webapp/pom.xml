@@ -2,21 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
-    <!-- <parent>
-        <relativePath>..</relativePath>
-        <groupId>de.aw.xray</groupId>
-        <artifactId>parent</artifactId>
-        <version>0.1.0</version>
-    </parent>
-    -->
+    <!--<parent>-->
+        <!--<relativePath>../de.aw.xray</relativePath>-->
+        <!--<groupId>de.aw.xray</groupId>-->
+        <!--<artifactId>common</artifactId>-->
+        <!--<version>0.1.0</version>-->
+    <!--</parent>-->
+
+    <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.aw.xray</groupId>
     <artifactId>example.webapp</artifactId>
     <version>0.1.0</version>
 
-    <name>de.aw.xray.example.webapp</name>
+    <name>example.webapp</name>
     <packaging>war</packaging>
 
     <properties>
