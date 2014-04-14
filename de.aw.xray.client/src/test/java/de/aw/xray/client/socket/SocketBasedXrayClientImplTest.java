@@ -1,9 +1,9 @@
 package de.aw.xray.client.socket;
 
-import de.aw.xray.client.XrayClient;
 import de.aw.xray.agent.XrayEvent;
 import de.aw.xray.agent.XrayServer;
 import de.aw.xray.agent.socket.SocketBasedXrayServerImpl;
+import de.aw.xray.client.XrayClient;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,7 +68,7 @@ public class SocketBasedXrayClientImplTest {
         server.start();
     }
 
-    @Test(expected=IOException.class)
+    @Test(expected = IOException.class)
     public void cannotConnectWithoutServer() throws IOException {
         client.connect();
     }
@@ -78,7 +78,7 @@ public class SocketBasedXrayClientImplTest {
         client.disconnect();
     }
 
-    @Test(expected=IllegalStateException.class)
+    @Test(expected = IllegalStateException.class)
     public void cannotGetEventsWithoutConnection() throws IOException {
         client.getEvents();
     }

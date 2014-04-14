@@ -1,7 +1,7 @@
 package de.aw.xray.client.socket;
 
-import de.aw.xray.client.XrayClient;
 import de.aw.xray.agent.XrayEvent;
+import de.aw.xray.client.XrayClient;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -71,7 +71,7 @@ public class SocketBasedXrayClientImpl implements XrayClient, Runnable {
         interruptEventCollectorThread();
         if(in != null) in.close();
         //if(agentSocket != null && agentSocket.getInputStream() != null && !agentSocket.isInputShutdown()) agentSocket.getInputStream().close();
-        if(agentSocket != null && !agentSocket.isClosed()) agentSocket.close();
+        if (agentSocket != null && !agentSocket.isClosed()) agentSocket.close();
     }
 
 

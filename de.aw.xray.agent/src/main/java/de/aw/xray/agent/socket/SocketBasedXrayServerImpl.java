@@ -65,7 +65,7 @@ public class SocketBasedXrayServerImpl implements XrayServer {
     }
 
     @Override
-    public void pushEvent(XrayEvent xrayEvent) throws IOException {
+    public void pushEvent(XrayEvent xrayEvent) {
         buffer(xrayEvent);
         if (clientIsReadyToReceive()) {
             sendAllBufferedEventsToClient();
@@ -80,12 +80,16 @@ public class SocketBasedXrayServerImpl implements XrayServer {
         return out != null && !client.isOutputShutdown() && !client.isClosed();
     }
 
-    private void sendAllBufferedEventsToClient() throws IOException {
-        for (XrayEvent bufferedEvent : xrayEventBuffer) {
-            out.writeObject(bufferedEvent);
+    private void sendAllBufferedEventsToClient() {
+        try {
+            for (XrayEvent bufferedEvent : xrayEventBuffer) {
+                out.writeObject(bufferedEvent);
+            }
+            out.flush();
+            xrayEventBuffer.clear();
+        } catch (IOException e) {
+            e.printStackTrace();  //TODO handle exception!!!
         }
-        out.flush();
-        xrayEventBuffer.clear();
     }
 
     @Override
