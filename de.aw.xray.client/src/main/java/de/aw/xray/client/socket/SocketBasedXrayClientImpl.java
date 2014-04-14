@@ -36,7 +36,10 @@ public class SocketBasedXrayClientImpl implements XrayClient, Runnable {
         agentSocket = new Socket(host, port);
         assert agentSocket.isConnected();
         events = new ArrayList<XrayEvent>();
-        in = new ObjectInputStream(agentSocket.getInputStream()); // Blocking!!!
+
+        // TODO this is blocking!!!
+        // If the client socket disconnects but the agentSocket is still there, this statement never returns.
+        in = new ObjectInputStream(agentSocket.getInputStream());
         eventCollectorThread.start();
     }
 
@@ -67,7 +70,8 @@ public class SocketBasedXrayClientImpl implements XrayClient, Runnable {
     public void disconnect() throws IOException {
         interruptEventCollectorThread();
         if(in != null) in.close();
-        if(agentSocket != null) agentSocket.close();
+        //if(agentSocket != null && agentSocket.getInputStream() != null && !agentSocket.isInputShutdown()) agentSocket.getInputStream().close();
+        if(agentSocket != null && !agentSocket.isClosed()) agentSocket.close();
     }
 
 

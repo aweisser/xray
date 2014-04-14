@@ -32,17 +32,17 @@ public class SocketBasedXrayClientImplTest {
     }
 
     @Test
-    public void sendOneEventAndConsumeNothing() throws IOException, InterruptedException {
+    public void sendOneEventAndConsumeBufferedEvent() throws IOException, InterruptedException {
         server.start();
         client.connect();
         server.pushEvent(new XrayEvent("type1", "hello"));
 
-        // No time to collect events
+        // There is no time to collect events. But events won't get lost.
 
         XrayEvent[] events = client.getEvents();
         Logger.getAnonymousLogger().info("Test> Got " + events.length + " events");
 
-        assertEquals(0, events.length);
+        assertEquals(1, events.length);
     }
 
     @Test
@@ -81,6 +81,28 @@ public class SocketBasedXrayClientImplTest {
     @Test(expected=IllegalStateException.class)
     public void cannotGetEventsWithoutConnection() throws IOException {
         client.getEvents();
+    }
+
+
+    @Test
+    public void twoConnectsFromSingleClientInstanceToSingleServerInstance() throws IOException {
+        server.start();
+        client.connect();
+        client.connect();
+    }
+
+
+    @Test
+    public void twoClientInstancesOneServer() throws IOException {
+        server.start();
+
+        XrayClient client1 = new SocketBasedXrayClientImpl("localhost", XRAY_PORT);
+        client1.connect();
+        client1.disconnect();
+
+        XrayClient client2 = new SocketBasedXrayClientImpl("localhost", XRAY_PORT);
+        client2.connect();
+        client2.disconnect();
     }
 
 

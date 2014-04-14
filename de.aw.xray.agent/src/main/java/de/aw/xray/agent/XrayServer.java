@@ -11,7 +11,7 @@ public interface XrayServer {
 
     void start() throws IOException;
 
-    void pushEvent(XrayEvent xrayEvent) throws IOException;
+    void pushEvent(XrayEvent xrayEvent);
 
     void stop() throws IOException;
 
